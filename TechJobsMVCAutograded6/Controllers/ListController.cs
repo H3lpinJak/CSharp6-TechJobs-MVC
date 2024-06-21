@@ -13,21 +13,24 @@ namespace TechJobsMVCAutograded6.Controllers;
 public class ListController : Controller
 {
     internal static Dictionary<string, string> ColumnChoices = new Dictionary<string, string>()
-        {
-            {"all", "All"},
-            {"employer", "Employer"},
-            {"location", "Location"},
-            {"positionType", "Position Type"},
-            {"coreCompetency", "Skill"}
-        };
-    internal static Dictionary<string, List<JobField>> TableChoices = new Dictionary<string, List<JobField>>()
-        {
-            //{"all", "View All"},
-            {"employer", JobData.GetAllEmployers()},
-            {"location", JobData.GetAllLocations()},
-            {"positionType", JobData.GetAllPositionTypes()},
-            {"coreCompetency", JobData.GetAllCoreCompetencies()}
-        };
+    {
+        { "all", "All" },
+        { "employer", "Employer" },
+        { "location", "Location" },
+        { "positionType", "Position Type" },
+        { "coreCompetency", "Skill" }
+    };
+    internal static Dictionary<string, List<JobField>> TableChoices = new Dictionary<
+        string,
+        List<JobField>
+    >()
+    {
+        //{"all", "View All"},
+        { "employer", JobData.GetAllEmployers() },
+        { "location", JobData.GetAllLocations() },
+        { "positionType", JobData.GetAllPositionTypes() },
+        { "coreCompetency", JobData.GetAllCoreCompetencies() }
+    };
 
     public IActionResult Index()
     {
@@ -41,10 +44,24 @@ public class ListController : Controller
         return View();
     }
 
-    // TODO #2 - Complete the Jobs action method
+    // Complete the Jobs action method
     public IActionResult Jobs(string column, string value)
     {
+        List<Job> jobs = new List<Job>();
+
+        if (column == null || value == null || column == "all")
+        {
+            //no specific column and value provided, then default to viewing all jobs
+            jobs = JobData.FindAll();
+            ViewBag.title = "All Jobs";
+        }
+        else
+        {
+            // using JobData.FindByColumnAndValue
+            jobs = JobData.FindByColumnAndValue(column, value);
+            ViewBag.title = $"Jobs with {ColumnChoices[column]}: {value}";
+        }
+        ViewBag.jobs = jobs;
         return View();
     }
 }
-

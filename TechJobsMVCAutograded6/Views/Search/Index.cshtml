@@ -27,7 +27,53 @@
     <hr />
 
     @* TODO #4 - Loop over the search results to display all job fields. *@
-
-
-
+@*<div>
+    @if (ViewBag.jobs != null && ViewBag.jobs.Count > 0)
+    {
+        <h2>Search Results:</h2>
+        <ul>
+            @foreach (var job in ViewBag.job)
+            {
+                <li>
+                    <strong>@job.Title</strong><br />
+                    <em>@job.Location</em><br />
+                    <p>@job.Description</p>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No results found.</p>
+    }
+</div>
+*@
+@if(ViewBag.jobs?.Count >0)
+{
+    <table class="job-listing">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Employer</th>
+            <th>Location</th>
+            <th>Position Type</th>
+            <th>Core Competency</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var job in ViewBag.jobs)
+        {
+            <tr>
+                <td>@job.Id</td>
+                <td>@job.Name</td>
+                <td>@job.Employer</td>
+                <td>@job.Location</td>
+                <td>@job.PositionType</td>
+                <td>@job.CoreCompetency</td>
+            </tr>
+        }
+    </tbody>
+</table>
+}
 </div>
